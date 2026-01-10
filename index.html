@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>img slide</title>
+
+    <style>
+        body{
+            background-color: black;
+            height: 90vh;
+        }
+        #imgspace{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 750px;
+            height: 450px;
+            background-color: aquamarine;
+            margin: auto;
+            position: relative;
+        }
+
+        #imgspace img{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        button{
+            position: absolute;
+            top: 45%;
+            padding: 8px 12px;
+            font-size: 18px;
+            cursor: pointer;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            border: none;
+        }
+
+        #leftbtn{ left: 10px }
+        #rightbtn{ right: 10px }
+    </style>
+</head>
+
+<body>
+
+    <div id="imgspace"></div>
+
+    <script>
+        let flarp = document.getElementById("imgspace")
+
+        let snorb = document.createElement("img")
+        flarp.appendChild(snorb)
+
+        let leftbtn = document.createElement("button")
+        leftbtn.innerHTML = "❮"
+        leftbtn.id = "leftbtn"
+        flarp.appendChild(leftbtn)
+
+        let rightbtn = document.createElement("button")
+        rightbtn.innerHTML = "❯"
+        rightbtn.id = "rightbtn"
+        flarp.appendChild(rightbtn)
+
+        let wobble = ["https://picsum.photos/id/1015/800/500", "https://picsum.photos/id/1016/800/500", "https://picsum.photos/id/1025/800/500"]
+        let glint = 0
+        snorb.src = wobble[glint]
+
+        function blink() {
+            snorb.src = wobble[glint]
+        }
+
+        rightbtn.onclick = function () {
+            glint++
+            if (glint == wobble.length) {
+                glint = 0
+            }
+            blink()
+            reset()
+        }
+
+        leftbtn.onclick = function () {
+            glint--
+            if (glint < 0) {
+                glint = wobble.length - 1
+            }
+            blink()
+            reset()
+        }
+
+        let timer
+
+        function spin() {
+            timer = setTimeout(() => {
+                glint++
+                if (glint == wobble.length) {
+                    glint = 0
+                }
+                blink()
+                spin()
+            }, 3000)
+        }
+
+        function reset() {
+            clearTimeout(timer)
+            spin()
+        }
+
+        spin()
+    </script>
+
+</body>
+</html>
